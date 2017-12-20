@@ -26,4 +26,9 @@ public class ToDo {
     @Column(name = "fkUser")
     private String fkUser;
 
+    @PrePersist
+    void getTimeOfOperation() {
+        this.date = new Date();
+    }
+
 }
