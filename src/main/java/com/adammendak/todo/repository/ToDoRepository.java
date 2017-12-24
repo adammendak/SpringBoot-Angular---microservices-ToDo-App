@@ -14,4 +14,5 @@ public interface ToDoRepository extends JpaRepository<ToDo, Long>{
 
     Optional<ToDo> findOneById (Long id);
 
+    List<ToDo> findAllByFkUser(Long id);
 }
