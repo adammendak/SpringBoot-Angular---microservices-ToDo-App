@@ -1,4 +1,16 @@
 package com.adammendak.todo.service;
 
-public class ToDoService {
+import com.adammendak.todo.model.ToDo;
+
+import java.util.List;
+
+public interface ToDoService {
+
+
+    List<ToDo> getToDos (String email);
+
+    ToDo addToDo (ToDo toDo);
+
+    void deleteToDo (Long id);
+
 }

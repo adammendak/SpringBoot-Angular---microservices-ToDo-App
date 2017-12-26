@@ -1,4 +1,4 @@
-package com.adammendak.todo.Bootstrap;
+package com.adammendak.todo.bootstrap;
 
 import com.adammendak.todo.model.ToDo;
 import com.adammendak.todo.model.User;
@@ -38,13 +38,13 @@ public class Bootstrap implements CommandLineRunner{
         ToDo firstToDo = new ToDo();
         firstToDo.setDescription("codeHard");
         firstToDo.setPriority("high");
-        firstToDo.setFkUser(1L);
+        firstToDo.setFkUser("myEmail@gmail.com");
         toDoRepository.save(firstToDo);
 
         ToDo secondOne = new ToDo();
         secondOne.setDescription("lol");
         secondOne.setPriority("low");
-        secondOne.setFkUser(2L);
+        secondOne.setFkUser("other@email.com");
         toDoRepository.save(secondOne);
 
     }

@@ -1,4 +1,4 @@
-package com.adammendak.todo.exceptions;
+package com.adammendak.todo.exception;
 
 public class UserNotLoggedException extends Exception{
 

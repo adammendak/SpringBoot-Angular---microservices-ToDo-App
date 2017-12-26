@@ -24,7 +24,7 @@ public class ToDo {
     @Column(name = "priority")
     private String priority;
     @Column(name = "fkUser")
-    private Long fkUser;
+    private String fkUser;
 
     @PrePersist
     void getTimeOfOperation() {

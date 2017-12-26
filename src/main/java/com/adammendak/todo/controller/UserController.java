@@ -3,7 +3,6 @@ package com.adammendak.todo.controller;
 import com.adammendak.todo.model.User;
 import com.adammendak.todo.repository.UserRepository;
 import com.adammendak.todo.utility.EncryptionUtil;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +33,7 @@ public class UserController {
     @GetMapping("/user")
     public ResponseEntity<List<User>> getUsers() {
         log.info("getting all users");
-        return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
@@ -42,7 +41,7 @@ public class UserController {
         Optional<User> user = userRepository.findOneById(id);
         if(user.isPresent()) {
             log.info("getting user with id {}", id);
-            return new ResponseEntity<User>(user.get(), HttpStatus.OK);
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
         } else {
             log.info("no such user with id {}", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -61,6 +60,7 @@ public class UserController {
         } catch (Exception e) {
             log.info("error {}", e.getMessage());
         }
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/user/{id}")
