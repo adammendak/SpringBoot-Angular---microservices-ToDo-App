@@ -73,19 +73,31 @@ public class ToDoController {
             return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(toDo);
         }
     }
-//
-//    @GetMapping("/toDo/{id}")
-//    public ResponseEntity<ToDo> getToDo(@PathVariable Long id) {
-//        Optional<ToDo> optionalToDo = toDoRepository.findOneById(id);
-//        if(optionalToDo.isPresent()) {
-//            log.info("getting ToDo with id {}", id);
-//            return new ResponseEntity<ToDo>(optionalToDo.get(), HttpStatus.OK);
-//        } else {
-//            log.info("no such toDo");
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-//
+
+    @GetMapping("/toDo/{id}")
+    public ResponseEntity<ToDo> getToDo(HttpServletRequest request, @PathVariable Long id) {
+        try {
+            loginService.verifyJwtAndGetData(request);
+            Optional<ToDo> optionalToDo = toDoService.findOneById(id);
+            if(optionalToDo.isPresent()) {
+                log.info("ToDo to return {}", optionalToDo.get().toString());
+                return ResponseEntity.status(HttpStatus.OK).body(optionalToDo.get());
+            } else {
+                log.info("no such toDo");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (UnsupportedEncodingException e) {
+            log.info("Exception {}", e.getMessage());
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (UserNotLoggedException e2) {
+            log.info("Exception {}", e2.getMessage());
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        } catch (ExpiredJwtException e3) {
+            log.info("Exception{}", e3.getMessage());
+            return new ResponseEntity(HttpStatus.GATEWAY_TIMEOUT);
+        }
+    }
+
 //    @GetMapping("/toDo/user/{id}")
 //    public ResponseEntity<List<ToDo>> getAllToDosByUserId(@PathVariable Long id) {
 //        List<ToDo> toDoList = toDoRepository.findAllByFkUser(id);
