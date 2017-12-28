@@ -37,4 +37,9 @@ public class ToDoServiceImpl implements ToDoService{
     public Optional<ToDo> findOneById(Long id) {
         return toDoRepository.findOneById(id);
     }
+
+    @Override
+    public List<ToDo> findAllToDosByfkUser(String fkUser) {
+        return toDoRepository.findByFkUser(fkUser);
+    }
 }

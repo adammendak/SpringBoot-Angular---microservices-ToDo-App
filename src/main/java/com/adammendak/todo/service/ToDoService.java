@@ -16,4 +16,6 @@ public interface ToDoService {
 
     Optional<ToDo> findOneById (Long id);
 
+    List<ToDo> findAllToDosByfkUser (String fkUser);
+
 }

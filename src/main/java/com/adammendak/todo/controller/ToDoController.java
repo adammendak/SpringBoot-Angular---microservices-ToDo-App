@@ -98,18 +98,31 @@ public class ToDoController {
         }
     }
 
-//    @GetMapping("/toDo/user/{id}")
-//    public ResponseEntity<List<ToDo>> getAllToDosByUserId(@PathVariable Long id) {
-//        List<ToDo> toDoList = toDoRepository.findAllByFkUser(id);
-//        if(toDoList.size() != 0){
-//            log.info("returning {} ToDo's of User with Id {}", toDoList.size(), id);
-//            return new ResponseEntity<List<ToDo>>(toDoList, HttpStatus.OK);
-//        } else {
-//            log.info("none found for id {}", id);
-//            return new ResponseEntity<List<ToDo>>(HttpStatus.NOT_FOUND);
-//        }
-//
-//    }
+    @GetMapping("/toDo/{fkUser}}")
+    public ResponseEntity<List<ToDo>> getAllToDosByUserEmail(HttpServletRequest request, @PathVariable String fkUser) {
+        try {
+            loginService.verifyJwtAndGetData(request);
+            List<ToDo> toDoList = toDoService.findAllToDosByfkUser(fkUser);
+            if(toDoList.size() != 0){
+                log.info("returning {} ToDo's of User with Id {}", toDoList.size(), fkUser);
+                return new ResponseEntity<List<ToDo>>(toDoList, HttpStatus.OK);
+            } else {
+                log.info("none found for id {}", fkUser);
+                return new ResponseEntity<List<ToDo>>(HttpStatus.NOT_FOUND);
+            }
+        } catch (UnsupportedEncodingException e) {
+            log.info("Exception {}", e.getMessage());
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (UserNotLoggedException e2) {
+            log.info("Exception {}", e2.getMessage());
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        } catch (ExpiredJwtException e3) {
+            log.info("Exception{}", e3.getMessage());
+            return new ResponseEntity(HttpStatus.GATEWAY_TIMEOUT);
+        }
+
+
+    }
 
     @DeleteMapping("/toDo/{id}")
     public ResponseEntity deleteToDo(HttpServletRequest request, @PathVariable Long id) {
@@ -127,15 +140,6 @@ public class ToDoController {
             log.info("Exception{}", e3.getMessage());
             return new ResponseEntity(HttpStatus.GATEWAY_TIMEOUT);
         }
-//        Optional<ToDo> optionalToDo = toDoRepository.findOneById(id);
-//        if(optionalToDo.isPresent()) {
-//            toDoRepository.delete(id);
-//            log.info("deleted ToDo with id {}", id);
-//            return new ResponseEntity(HttpStatus.valueOf(204));
-//        } else {
-//            log.info("not found any toDo with id {}", id);
-//            return new ResponseEntity(HttpStatus.NOT_FOUND);
-//        }
     }
 
 
